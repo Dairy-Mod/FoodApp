@@ -21,10 +21,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,7 +38,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -137,6 +136,32 @@ fun FoodApp(innerPaddingValues: PaddingValues) {
                 CategoryChip(cat)
             }
         }
+
+        //Restaurantes
+        Text(
+            text = "Busca los mejores\nrestaurantes",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.DarkGray,
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .padding(bottom = 5.dp)
+                .padding(start = 10.dp)
+                .padding(end = 10.dp)
+        )
+
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items(restaurantes) { res ->
+                RestaurantChip(res)
+            }
+        }
     }
 }
 
@@ -157,6 +182,36 @@ fun CategoryChip(item: CategoryItem, modifier: Modifier = Modifier) {
                 painter = painterResource(id = item.imageRes),
                 contentDescription = item.title,
                 modifier = Modifier.size(64.dp),
+                contentScale = ContentScale.Fit
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = item.title,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = Color.DarkGray
+        )
+    }
+}
+
+@Composable
+fun RestaurantChip(item: RestaurantItem, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.width(100.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(88.dp)
+                .clip(RoundedCornerShape(5.dp))
+                .background(Color.Transparent),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(id = item.imageRes),
+                contentDescription = item.title,
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit
             )
         }
