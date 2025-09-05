@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -162,6 +166,31 @@ fun FoodApp(innerPaddingValues: PaddingValues) {
                 RestaurantChip(res)
             }
         }
+
+        //Mejores comidas
+        Text(
+            text = "Nuestras mejores comidas",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.DarkGray,
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .padding(bottom = 5.dp)
+                .padding(start = 10.dp)
+                .padding(end = 10.dp)
+        )
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(10.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(comidas) { foo ->
+                FoodChip(foo)
+            }
+        }
     }
 }
 
@@ -224,6 +253,46 @@ fun RestaurantChip(item: RestaurantItem, modifier: Modifier = Modifier) {
         )
     }
 }
+
+@Composable
+fun FoodChip(item: FoodItem, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(6.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1.4f)
+                .clip(RoundedCornerShape(12.dp))
+                .background(Color.White),
+            contentAlignment = Alignment.Center,
+        ) {
+            Image(
+                painter = painterResource(id = item.imageRes),
+                contentDescription = item.title,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop //Para recortar img
+            )
+        }
+
+        Spacer(Modifier.height(8.dp))
+
+        Text(
+            text = item.title,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = Color.DarkGray,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            maxLines = 1
+        )
+    }
+}
+
+
 
 
 @Preview(showBackground = true)
